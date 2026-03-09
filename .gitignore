@@ -1,0 +1,14 @@
+*.png
+*.jpg
+*.gif
+*.ico
+*.mp3
+*.pdf
+*.xls
+*.xlsx
+*.mp4
+*.webm
+.htaccess
+index.php
+/application/config/*
+/node_modeles/*
