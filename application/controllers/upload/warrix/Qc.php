@@ -52,7 +52,9 @@ class Qc extends CI_Controller
           $arr = array(
             'order_code' => $code,
             'role' => $role,
-            'user' => $user
+            'user' => $user,
+            'file_name' => $fileName,
+            'file_format' => pathinfo($fileName, PATHINFO_EXTENSION)
           );
 
           $this->db->insert('order_pack_video', $arr);
@@ -77,8 +79,10 @@ class Qc extends CI_Controller
 
   public function view($code)
   {
-    $path = $this->config->item('upload_path').'warrix/'.$code.'.webm';
-    $file = $this->config->item('upload_file_path').'warrix/'.$code.'.webm';
+    $format = getConfig('VIDEO_FORMAT');
+    $format = empty($format) ? 'webm' : $format;
+    $path = $this->config->item('upload_path').'warrix/'.$code.'.'.$format;
+    $file = $this->config->item('upload_file_path').'warrix/'.$code.'.'.$format;
 
     $ds = [
       'code' => $code,

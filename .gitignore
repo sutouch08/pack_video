@@ -10,6 +10,7 @@
 *.webm
 .htaccess
 index.php
-/application/config/*
-/node_modeles/*
-/application/sesssions/*
+/application/config/config.php
+/application/config/database.php
+/node_modules/*
+/application/sessions/*
