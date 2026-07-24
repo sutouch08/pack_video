@@ -12,3 +12,4 @@
 index.php
 /application/config/*
 /node_modeles/*
+/application/sesssions/*
