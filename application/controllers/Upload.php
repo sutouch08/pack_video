@@ -1,8 +1,7 @@
 <?php
 
 class Upload extends CI_Controller
-{
-  private $secret = "YXBpQHdhcnJpeDpaSzExbzE1bzE1TDEycyRwMHJ0==";
+{  
   public function __construct()
   {
     parent::__construct();
@@ -36,7 +35,7 @@ class Upload extends CI_Controller
       }
     }
 
-    if ($sc === TRUE && $owner_data->secret !== $this->secret)
+    if ($sc === TRUE && $owner_data->secret !== $key)
     {
       $sc = FALSE;
       $this->error = "unauthorized";
@@ -78,7 +77,7 @@ class Upload extends CI_Controller
             'file_format' => pathinfo($fileName, PATHINFO_EXTENSION)
           );
 
-          $id = $this->Packing_video_model->get_id($code);
+          $id = $this->get_id($code);
 
           if($id)
           {
