@@ -3,7 +3,7 @@
 
 <head>
   <meta charset="UTF-8" />
-  <title>Video Player ด้วย Video.js</title>
+  <title><?php echo $code; ?></title>
 
   <!-- Video.js CSS (CDN) -->
   <link href="<?php echo base_url(); ?>assets/css/video-js.css" rel="stylesheet" />
@@ -12,19 +12,16 @@
     /* จัดหน้าให้วิดีโออยู่กลางจอ */
     body {
       margin: 0;
-      padding: 0;
+      padding: 20px;
       font-family: sans-serif;
       background: #111;
-      color: #fff;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
+      color: #fff;     
     }
 
     .player-wrapper {
-      width: 80%;
-      max-width: 900px;
+      max-width: 800px;
+      margin: auto;
+      text-align: center;
     }
 
     h1 {
@@ -33,13 +30,29 @@
       font-size: 1.6rem;
     }
 
-    /* ปรับสไตล์ของ video.js เพิ่มเล็กน้อย */
+    .controls {
+        margin-top: 15px;
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+      }
+
+      button {
+        padding: 10px 16px;
+        font-size: 16px;
+        color: #fff;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        background: #03a9f4;
+      }  
+   
     .video-js {
       border-radius: 8px;
       overflow: hidden;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);      
     }
-
+   
     .hide {
       display: none;
     }
@@ -59,14 +72,21 @@
         class="video-js vjs-default-skin"
         controls
         preload="auto"
-        width="640"           
-        data-setup="{}" style="aspect-ratio: 4/3;">
+        width="640"
+        height="360"        
+        data-setup="{}" style="aspect-ratio: 16/9;">
         <!-- เปลี่ยน src เป็นไฟล์วิดีโอของคุณเองได้ -->
         <source src="<?php echo base_url().$path; ?>" type="video/webm" />      
         <p class="vjs-no-js">
           กรุณาเปิดใช้งาน JavaScript เพื่อดูวิดีโอนี้
         </p>
-      </video>      
+      </video> 
+
+      <div class="controls">
+        <button class="btn-rotate" id="rotateBtn">Rotate 180°</button>
+        <button class="btn-mirror" id="mirrorBtn">Mirror</button>
+        <button class="btn-reset" id="resetBtn">Reset</button>
+      </div>     
     </div>
 
     <!-- Video.js JS (CDN) -->
@@ -79,12 +99,39 @@
         fluid: true
       });
 
-      // ตัวอย่าง event
-      player.on('play', () => {
-        if(player.networkState === 3) {
-          console.log('เริ่มเล่นวิดีโอ');          
-        }
+      let rotated = false;
+      let mirrored = false;
+
+      const videoEl = document.querySelector('#my-video video');
+
+      const applyTransform = () => {
+        const rotateValue = rotated ? 'rotate(180deg)' : 'rotate(0deg)';
+        const mirrorValue = mirrored ? 'scaleX(-1)' : 'scaleX(1)';
+        videoEl.style.transform = `${rotateValue} ${mirrorValue}`;
+      };
+
+      document.getElementById('rotateBtn').addEventListener('click', () => {
+        rotated = !rotated;
+        applyTransform();
       });
+
+      document.getElementById('mirrorBtn').addEventListener('click', () => {
+        mirrored = !mirrored;
+        applyTransform();
+      });
+
+      document.getElementById('resetBtn').addEventListener('click', () => {
+        rotated = false;
+        mirrored = false;
+        applyTransform();
+      });
+
+      // // ตัวอย่าง event
+      // player.on('play', () => {
+      //   if(player.networkState === 3) {
+      //     console.log('เริ่มเล่นวิดีโอ');          
+      //   }
+      // });
     </script>
   <?php endif; ?>
 </body>
